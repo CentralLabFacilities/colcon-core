@@ -28,6 +28,8 @@ from colcon_core.task import get_task_extension
 from colcon_core.task import TaskContext
 from colcon_core.verb import check_and_mark_build_tool
 from colcon_core.verb import check_and_mark_install_layout
+from colcon_core.verb import check_and_mark_colcon_root
+from colcon_core.verb import DEFAULT_START_PATH
 from colcon_core.verb import logger
 from colcon_core.verb import update_object
 from colcon_core.verb import VerbExtensionPoint
@@ -51,7 +53,7 @@ class BuildPackageArguments:
         self.build_base = os.path.abspath(os.path.join(
             os.getcwd(), args.build_base, pkg.name))
         self.install_base = os.path.abspath(os.path.join(
-            os.getcwd(), args.install_base))
+            os.getcwd()))
         self.merge_install = args.merge_install
         if not args.merge_install:
             self.install_base = os.path.join(
@@ -121,6 +123,7 @@ class BuildVerb(VerbExtensionPoint):
         self.task_argument_destinations = decorated_parser.get_destinations()
 
     def main(self, *, context):  # noqa: D102
+        check_and_mark_colcon_root(DEFAULT_START_PATH)
         check_and_mark_build_tool(context.args.build_base)
         check_and_mark_install_layout(
             context.args.install_base,
