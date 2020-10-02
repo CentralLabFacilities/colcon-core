@@ -28,7 +28,7 @@ from colcon_core.task import get_task_extension
 from colcon_core.task import TaskContext
 from colcon_core.verb import check_and_mark_build_tool
 from colcon_core.verb import check_and_mark_install_layout
-from colcon_core.verb import check_and_mark_root_dir
+from colcon_core.verb import check_and_mark_colcon_root
 from colcon_core.verb import DEFAULT_START_PATH
 from colcon_core.verb import logger
 from colcon_core.verb import update_object
@@ -54,7 +54,6 @@ class BuildPackageArguments:
             os.getcwd(), args.build_base, pkg.name))
         self.install_base = os.path.abspath(os.path.join(
             os.getcwd()))
-        self.start_path = DEFAULT_START_PATH
         self.merge_install = args.merge_install
         if not args.merge_install:
             self.install_base = os.path.join(
@@ -97,10 +96,6 @@ class BuildVerb(VerbExtensionPoint):
             type=get_cwd_path_resolver(),
             help='The base path for all install prefixes (default: install)')
         parser.add_argument(
-            '--start_path',
-            default=DEFAULT_START_PATH,
-            help='The directory where build verb is invoked in')
-        parser.add_argument(
             '--merge-install',
             action='store_true',
             help='Merge all install prefixes into a single location')
@@ -128,7 +123,7 @@ class BuildVerb(VerbExtensionPoint):
         self.task_argument_destinations = decorated_parser.get_destinations()
 
     def main(self, *, context):  # noqa: D102
-        check_and_mark_root_dir(context.args.start_path)
+        check_and_mark_colcon_root(DEFAULT_START_PATH)
         check_and_mark_build_tool(context.args.build_base)
         check_and_mark_install_layout(
             context.args.install_base,
