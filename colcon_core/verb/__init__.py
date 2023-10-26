@@ -141,11 +141,14 @@ def check_and_mark_colcon_root(start_path):
         if marker_path.is_file():
             if current_path != start_path:
                 raise RuntimeError(
-                    "'{start_path}' is not marked as the root directory. "
-                    "Please go to '{current_path}'. "
-                    'If you want to mark current path as root directory, '
-                    "please remove the '{MARKER_NAME}' file "
-                    "in '{current_path}'.".format_map(locals()))
+                    f"""
+    '{start_path}' 
+    is not marked as the root directory.
+    Please go to '{current_path}'.
+    
+    If you want to mark current path as root directory,
+    please remove the '{MARKER_NAME}' file
+    in '{current_path}'.""")
             return
         else:
             current_path = current_path.parent
