@@ -5,8 +5,8 @@ argparse
 asyncio
 autouse
 backend
+backends
 backported
-basepath
 bazqux
 blocklist
 callables
@@ -16,8 +16,10 @@ changelog
 classname
 colcon
 coloredlogs
+compileall
 configparser
 contextlib
+copytree
 coroutine
 coroutines
 cpython
@@ -33,6 +35,7 @@ depreated
 deps
 descs
 distlib
+dists
 docstring
 executables
 exitstatus
@@ -55,6 +58,7 @@ https
 importlib
 importorskip
 isatty
+isdigit
 iterdir
 itertools
 junit
@@ -64,10 +68,12 @@ lineno
 linter
 linux
 lstrip
+maxsize
 minversion
 mkdtemp
 monkeypatch
 namedtuple
+namespaces
 nargs
 noop
 noops
@@ -75,6 +81,7 @@ noqa
 notestscollected
 openpty
 optionxform
+osfhandle
 pathlib
 pkgname
 pkgs
@@ -87,6 +94,7 @@ prepended
 prepending
 proactor
 purelib
+pycache
 pydocstyle
 pyproject
 pytest
@@ -129,12 +137,14 @@ stdeb
 stringify
 stylizer
 stylizers
+subclassing
 subparser
 subparsers
 subprocesses
 symlink
 symlinks
 sysconfig
+takewhile
 tempfile
 terminalreporter
 testcase

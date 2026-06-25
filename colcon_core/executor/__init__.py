@@ -61,7 +61,7 @@ class Job:
         self._event_queue = event_queue
 
         self.put_event_into_queue(JobQueued(
-            self.task_context.pkg.name, self.task_context.dependencies))
+            self.identifier, self.task_context.dependencies))
 
     async def __call__(self, *args, **kwargs):
         """
@@ -80,7 +80,7 @@ class Job:
         :returns: The return code of the invoked task
         :raises Exception: Any exception the invoked task raises
         """
-        self.put_event_into_queue(JobStarted(self.task_context.pkg.name))
+        self.put_event_into_queue(JobStarted(self.identifier))
 
         # replace function to use this job as the event context
         self.task_context.put_event_into_queue = self.put_event_into_queue
@@ -100,7 +100,7 @@ class Job:
             if self.returncode is None:
                 self.returncode = rc or 0
             self.put_event_into_queue(
-                JobEnded(self.task_context.pkg.name, self.returncode))
+                JobEnded(self.identifier, self.returncode))
         return self.returncode
 
     def put_event_into_queue(self, event):
@@ -182,6 +182,7 @@ class ExecutorExtensionPoint:
         :param arguments: The passed arguments
 
         The deprecated API accepts the following separate arguments:
+
         :param args: The parsed command line arguments
         :param jobs: The jobs
         :param on_error: The decision how to proceed when one job fails
@@ -279,14 +280,14 @@ def execute_jobs(
     Execute jobs.
 
     The overview of the process:
-    * One executor extension is being chosen based on the command line
-      arguments.
-    * Create an event controller.
-    * Pass the event controller to the executor extension.
-    * Pass the event queue to all jobs.
-    * Start the event controller.
-    * Invoke the executor extension to execute the jobs.
-    * Join the event controller.
+      * One executor extension is being chosen based on the command line
+        arguments.
+      * Create an event controller.
+      * Pass the event controller to the executor extension.
+      * Pass the event queue to all jobs.
+      * Start the event controller.
+      * Invoke the executor extension to execute the jobs.
+      * Join the event controller.
 
     :param jobs: The ordered dictionary of jobs
     :param on_error: The decision how to proceed when one job fails
